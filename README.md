@@ -5,7 +5,10 @@ Multi-agent system for generating Copilot Studio agent configurations.
 ## Architecture
 
 ```
-[Input: agent name + scope + sector]
+[You provide: agent name + scope + sector + tone]
+        ↓
+  FORGEMASTER — Orchestrator
+  → collects input, coordinates all agents, delivers the package
         ↓
   INSTRUCTOR — Instructions Generator
   → generates the complete system prompt
@@ -16,22 +19,23 @@ Multi-agent system for generating Copilot Studio agent configurations.
   ARCHITECT — Structure Advisor
   → suggests topics, variables, triggers, entities (per MS docs)
         ↓
-  [Output: agent-ready package]
+  [Output: output/agent-name/ with 3 files]
 ```
 
 ## Project Structure
 
 ```
 FORGE/
+├── agents/                      ← agent prompts
+│   ├── forgemaster.md           ← orchestrator (start here)
+│   ├── instructor.md            ← generates system prompts
+│   ├── descriptor.md            ← generates descriptions
+│   └── architect.md             ← generates structure/config
+│
 ├── templates/                   ← reusable base templates
 │   ├── template-instructions.md
 │   ├── template-description.md
 │   └── template-structure.md
-│
-├── agents/                      ← the 3 builder agent prompts
-│   ├── instructor.md
-│   ├── descriptor.md
-│   └── architect.md
 │
 ├── examples/                    ← real agents already built
 │   ├── it-agent/
@@ -46,17 +50,11 @@ FORGE/
 
 ## How to Use
 
-### Step 1 — Generate Instructions
-Open `agents/instructor.md` in GitHub Copilot.
-Provide: agent name, scope, sector, tone.
-Save output to `output/[agent-name]/instructions.md`.
-
-### Step 2 — Generate Description
-Open `agents/descriptor.md` in GitHub Copilot.
-Attach the instructions.md from Step 1.
-Save output to `output/[agent-name]/description.md`.
-
-### Step 3 — Generate Structure
-Open `agents/architect.md` in GitHub Copilot.
-Attach both previous outputs.
-Save output to `output/[agent-name]/structure.md`.
+1. Open `agents/forgemaster.md` in GitHub Copilot
+2. Tell it what agent you need (name, scope, sector, tone, topics)
+3. FORGEMASTER handles everything:
+   - Calls INSTRUCTOR → generates system prompt
+   - Calls DESCRIPTOR → generates name and descriptions
+   - Calls ARCHITECT → generates topics, variables, entities
+   - Creates `output/[agent-name]/` folder with all 3 files
+4. Review the generated package and deploy to Copilot Studio
