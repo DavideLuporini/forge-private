@@ -10,14 +10,20 @@ Multi-agent system for generating Copilot Studio agent configurations.
   FORGEMASTER — Orchestrator
   → collects input, coordinates all agents, delivers the package
         ↓
+  Phase 0.5 — Mandatory Clarification
+  → asks targeted questions if input is vague or incomplete
+        ↓
   INSTRUCTOR — Instructions Generator
   → generates the complete system prompt
+  → MUST ask clarifying questions if input is unclear
         ↓
   DESCRIPTOR — Description Generator
   → generates display name + short/long descriptions
+  → MUST ask clarifying questions if scope is ambiguous
         ↓
   ARCHITECT — Structure Advisor
   → suggests topics, variables, triggers, entities (per MS docs)
+  → proceeds directly, no clarification needed
         ↓
   [Output: output/agent-name/ with 3 files]
 ```
@@ -53,8 +59,16 @@ FORGE/
 1. Open `agents/forgemaster.md` in GitHub Copilot
 2. Tell it what agent you need (name, scope, sector, tone, topics)
 3. FORGEMASTER handles everything:
-   - Calls INSTRUCTOR → generates system prompt
-   - Calls DESCRIPTOR → generates name and descriptions
-   - Calls ARCHITECT → generates topics, variables, entities
-   - Creates `output/[agent-name]/` folder with all 3 files
+   - **Phase 0** — Collects your input and confirms it in a summary table
+   - **Phase 0.5** — Asks mandatory clarifying questions if anything is vague (instructions & description only)
+   - **Phase 1** — Calls INSTRUCTOR → generates system prompt
+   - **Phase 2** — Calls DESCRIPTOR → generates name and descriptions
+   - **Phase 3** — Calls ARCHITECT → generates topics, variables, entities
+   - **Phase 4** — Creates `output/[agent-name]/` folder with all 3 files and delivers summary
 4. Review the generated package and deploy to Copilot Studio
+
+### Clarification Rules
+- INSTRUCTOR and DESCRIPTOR **must** ask questions when input is unclear — this is not optional
+- Max 3-5 questions per round, with examples of good answers
+- If you say "just do it", they proceed but **declare the defaults chosen**
+- ARCHITECT proceeds without questions
