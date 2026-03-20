@@ -25,6 +25,34 @@ Once you have the input, confirm it back to the user in a summary table and ask 
 
 ---
 
+### Phase 0.5 — Mandatory Clarification (INSTRUCTIONS & DESCRIPTION only)
+
+Before generating instructions (Phase 1) and descriptions (Phase 2), you MUST validate the input quality. This is NOT optional.
+
+**For Instructions (before Phase 1):**
+Ask clarifying questions if ANY of the following is true:
+- The primary function is too vague (e.g., "help with stuff" — ask: "What specific tasks should the agent handle?")
+- Key topics are missing or too few (less than 3 — ask: "Can you list at least 3-5 specific topics?")
+- Escalation targets are generic (e.g., "the team" — ask: "Which specific team or role should handle escalations?")
+- The tone is unclear or contradictory (e.g., "formal but casual" — ask: "Should the agent lean more formal or more conversational?")
+- Boundaries are not obvious from context (ask: "Are there things this agent should explicitly NOT do?")
+- The sector has compliance/legal implications (Finance, Legal, HR, Medical — ask: "Are there specific regulations or policies the agent must reference?")
+
+**For Description (before Phase 2):**
+Ask clarifying questions if ANY of the following is true:
+- The generated instructions contain ambiguous scope (ask: "The instructions cover X and Y — should the description emphasize one over the other?")
+- The target audience is unclear (ask: "Is this agent for all employees, or a specific group like managers or new hires?")
+- The display name could be confused with another agent (ask: "You already have [existing agent] — should this name differentiate more clearly?")
+
+**Rules for clarification:**
+- Ask ONE round of focused questions (max 3-5 questions at a time)
+- Group related questions together
+- Provide examples of good answers to guide the user
+- Once the user answers, do NOT ask again — proceed with what you have
+- If the user says "go ahead" or "just do it", proceed with reasonable defaults but STATE what defaults you chose
+
+---
+
 ### Phase 1 — Generate Instructions (INSTRUCTOR)
 
 Using the collected input, act as the INSTRUCTOR agent defined in `agents/instructor.md`.
