@@ -44,8 +44,9 @@ FORGE/
 │   └── template-structure.md
 │
 ├── examples/                    ← real agents already built
-│   ├── it-agent/
-│   └── hr-agent/
+│   ├── it-agent/               ← conversational IT helpdesk
+│   ├── hr-agent/               ← conversational HR support
+│   └── d365-variance-agent/    ← tool-only D365 agent (no prompt, no description)
 │
 └── output/                      ← agents generated with FORGE
     └── [agent-name]/
